@@ -8,28 +8,46 @@ import Input from './Input.jsx'
 import Button from './Button.jsx'
 import Select from './Select.jsx'
 
-function Profile() {
+function Profile({profile}) {
 
-    const {register, handleSubmit} = useForm()
+  console.log("profp",profile);
+
+    const {register, handleSubmit} = useForm({
+      defaultValues:{
+        name: profile?.name|| "",
+        userName: profile?.userName ||"",
+        bio: profile?.bio ||"",
+        tag: profile?.tag ||"Student"
+      }
+    })
     const userData = useSelector((state) => state.auth.userData)
-    const usr= useSelector((state)=> state.auth.status)
+    // const usr= useSelector((state)=> state.auth.status)
     const navigate = useNavigate();
     
-
+    console.log(profile);
+    
 
     const submit = async (data) => {
       console.log(userData);
-      console.log(usr);
+
 
             try {
-              if (userData) {
+              
+                if(profile){
+                  console.log("userDatra",userData);
+                  const dbProf = await appwriteService.updateProfile(userData.$id,{...data})
+                  if(dbProf){
+                    navigate("/")
+                  
+                }else{
                 console.log(userData.$id);
                   const dbProfile = await appwriteService.createProfile({...data,userId: userData.$id });
   
                   if (dbProfile) {
                       navigate(`/`);
                   }
-              }
+              } 
+            }
             } catch (error) {
               console.log(error);
             }
@@ -53,6 +71,9 @@ function Profile() {
               className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
               label ="Full Name"
               type="text"
+              
+              value = {profile? profile.name: ""}
+              
               placeholder="Enter your Fullname"
               {...register("name", {
                 required: true, 
@@ -61,6 +82,8 @@ function Profile() {
               <Input
               className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
               label ="UserName"
+              value={profile? profile.userName : ""}
+              
               type="text"
               placeholder="Enter your username"
               {...register("userName", {
@@ -71,6 +94,8 @@ function Profile() {
               className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
               label ="bio"
               type="text"
+              value={profile? profile.bio: ""}
+              
               placeholder="Enter your bio"
               {...register("bio")}
               />
@@ -87,21 +112,15 @@ function Profile() {
                 {...register("department", {required: true})}
                 /> */}
               
-              <Button type="submit" className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                <svg
-                  className="w-6 h-6 -ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className = "buttonBox">
+                <Button
+                type="submit"
+                className="button"
+                
                 >
-                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                  <circle cx="8.5" cy="7" r="4" />
-                  <path d="M20 8v6M23 11h-6" />
-                </svg>
-                <span className="ml-3">Complete your Journey</span>
-              </Button>
+                { profile?"Update":"Submit"}
+                </Button>
+                </div>
             </form>
             
               

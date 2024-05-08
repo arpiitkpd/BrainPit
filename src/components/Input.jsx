@@ -1,4 +1,4 @@
-import React,{useId} from 'react'
+import React,{useId, useState} from 'react'
 
 const Input = React.forwardRef(
     function Input({
@@ -7,10 +7,13 @@ const Input = React.forwardRef(
         className ="",
         titlClass="",
         value,
+        
         ...props
         
     }, ref){
-        const id = useId();
+
+        
+        const id = useId();    
         return(
             <div>
                 {label && (
@@ -22,8 +25,15 @@ const Input = React.forwardRef(
                     </label>
                 )}
                 <input type={type}
+              
                  className={`${className}`}
-                 value={value?value:undefined}
+                
+                 defaultValue={null}
+              
+                 
+                 
+                contentEditable="true"
+                 
                   id={id}
                   ref={ref}
                   {...props} />

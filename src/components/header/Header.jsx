@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {Button , Input} from '../index.js'
 import { useForm } from 'react-hook-form'
-import { IoSearchOutline, IoAddCircle } from "react-icons/io5";
+import { IoSearchOutline, } from "react-icons/io5";
 
 
 
@@ -17,14 +17,17 @@ function Header() {
     
    
     const {register, handleSubmit} = useForm()
-   console.log(authStatus);
+    const navigate = useNavigate();
+
     const search= async(data)=>{
-        setError("")
+     
         try {
-             console.log(data);
+             if(data){
+                navigate(`/queryPost/${data.search}`)
+             }else navigate('/')
 
             } catch (error) {
-              setError(error.message)
+             
               console.log(error);
             }
           }
@@ -42,6 +45,7 @@ function Header() {
             <form  onSubmit={handleSubmit(search)}>
             <div className='my-2'>
                 <div className="flex items-center space-x-2 mr-32">
+                   
                     <Input type="text" placeholder="Search brainPit" style={{background:"#21454d" , borderRadius:"33px", border: "none", color:"white"}}className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-600 w-80"
                    {...register("search")}
                     />
@@ -72,7 +76,7 @@ function Header() {
                         Create
                         </Link>                    
                         <Link 
-                        to={"/profile"}
+                        to={"/edit-profile"}
                         style={{background:"#d93a00",  borderRadius:"33px", border: "none", Onhover:{background:"#962900"}}}
                         type="button" className="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
                         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

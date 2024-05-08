@@ -15,6 +15,8 @@ import AddPost from './pages/AddPost.jsx'
 import Post from './pages/Post.jsx'
 import EditPost from './pages/EditPost.jsx'
 import Test from './components/test/Test.jsx'
+import EditProfile from './pages/EditProfile.jsx'
+import QueryPost from './pages/QueryPost.jsx'
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,18 @@ const router = createBrowserRouter([
             <Protected authentication={true}>
               <Home/>
             </Protected>
-        ),    
+
+        ), 
+        children:[
+          {
+            path: "/queryPost/:query",
+            element:(
+              <Protected authentication>
+                <QueryPost/>
+              </Protected>
+            )
+          },
+        ]   
         
       },
       {
@@ -100,7 +113,7 @@ const router = createBrowserRouter([
         path:"/management/posts",
         element:(
           <Protected authentication>
-            <Home tag="management"/>
+            <Home tag="Management"/>
           </Protected>
         )
       },
@@ -128,11 +141,20 @@ const router = createBrowserRouter([
           </Protected>
         )
       },
+      
       {
         path: "/edit-post/:slug",
         element:(
           <Protected authentication>
             <EditPost/>
+          </Protected>
+        )
+      },
+      {
+        path: "/edit-profile",
+        element:(
+          <Protected authentication>
+            <EditProfile/>
           </Protected>
         )
       },

@@ -82,6 +82,15 @@ async getUserById(userId,queries = [Query.equal("userId",userId)]){
         }
     }
 
+    async getProfile(id){
+        try {
+            return await this.databases.getDocument(conf.appwriteDatabaseId, conf.appwriteProfileCollectionId, id)
+        } catch (error) {
+            console.log("appwrite service :: getProfile() :: ", error);
+            return false;
+        }
+    }
+
     async deletePost(id){
         try {
            await this.databases.deleteDocument(conf.appwriteDatabaseId, conf.appwriteCollectionId, id)
@@ -111,12 +120,38 @@ async getUserById(userId,queries = [Query.equal("userId",userId)]){
             console.log("Appwrite serive :: updatePost :: error", error);
         }
     }
+    async updateProfile(id ,{name, userName, bio, tag}){
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteProfileCollectionId,
+                id,
+                {
+                    name,
+                    userName, 
+                    bio, 
+                    tag
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: updateProfie :: error", error);
+        }
+    }
 
     async getDeptPost(dept,queries = [Query.equal("department",dept)]){
         try {
             return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteCollectionId, queries)
          } catch (error) {
              console.log("appwrite service :: getDeptPOsts() :: ", error);
+             return false;
+         }
+    }
+
+    async getQueryPost(query, queries=[Query.contains("title", query)]){
+        try {
+            return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteCollectionId, queries)
+         } catch (error) {
+             console.log("appwrite service :: getQueryPost() :: ", error);
              return false;
          }
     }

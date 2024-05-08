@@ -9,7 +9,7 @@ import Container from '../Container.jsx'
 
 function Home(tag="") {
 
-  console.log(tag.tag, "component");
+ 
   return (
     <div className='grid grid-cols-5 gap-4' style={{height:"91vh"}}>
    <Sidebar/>
