@@ -2,42 +2,47 @@
 import React, { useEffect, useState } from 'react'
 import PostCard from './PostCard.jsx'
 import appwriteService from '../appwrite/config.js'
+import { useParams } from 'react-router-dom';
 
 
 
 function Container({tag=""}) {
-    console.log(tag, "container");
+    
 
     const [posts, setPosts]= useState([])
-  
+    const {query}= useParams();
+
    
     useEffect(()=>{
-        if(tag==""){
-            appwriteService.getPosts([]).then((response)=> {
-            if(response){
-                setPosts(response.documents)
-            }
-            }
-            )
-        }else{
+        if(tag){
             appwriteService.getDeptPost(tag).then((response)=> {
                 if(response){
                     setPosts(response.documents)
                 }
                 }
                 )
+        }else if(query){
+            appwriteService.getQueryPost(query).then((response)=> {
+                if(response){
+                  
+                    setPosts(response.documents)
+                }else{
+                    console.log("no post mathced");
+                }
+                }
+                )
+            }else{
+                appwriteService.getPosts([]).then((response)=> {
+                    if(response){
+                        setPosts(response.documents)
+                    }
+                    }
+                    )
+            
         }
-        },[tag])
+        },[tag, query])
 
-        console.log(tag);
-    
-    
-    
-
-    posts.map((post)=>{
-        console.log( post.featuredImage);
-       
-    })
+        
     
   if(posts.length==0){
         return(
@@ -48,7 +53,7 @@ function Container({tag=""}) {
             <div className="content  col-span-4  scroll text-white">
                 {
                 posts.map((post)=>{
-                    
+                   
                     return(
                         <div key={post.$id} style={{borderBottom:"1px solid grey", marginRight: "23px"}}>
                             <PostCard id={post.$id} 
@@ -57,7 +62,7 @@ function Container({tag=""}) {
                             imageUrl={post.featuredImage}  
                             title={post.title} 
                             content={post.content} 
-                            likes={post.likes} 
+                            likes={post.likes.length} 
                             comments={post.comment.length} 
                             tag={post.department}
                             />

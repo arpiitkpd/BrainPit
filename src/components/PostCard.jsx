@@ -5,7 +5,7 @@ import appwriteService from '../appwrite/config'
 import parse from "html-react-parser"
 
 function PostCard({
-    id='/',
+    id,
     imageUrl,
     userId,
     time,

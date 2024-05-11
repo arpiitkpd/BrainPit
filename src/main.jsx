@@ -16,7 +16,7 @@ import Post from './pages/Post.jsx'
 import EditPost from './pages/EditPost.jsx'
 import Test from './components/test/Test.jsx'
 import EditProfile from './pages/EditProfile.jsx'
-import QueryPost from './pages/QueryPost.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -31,18 +31,7 @@ const router = createBrowserRouter([
               <Home/>
             </Protected>
 
-        ), 
-        children:[
-          {
-            path: "/queryPost/:query",
-            element:(
-              <Protected authentication>
-                <QueryPost/>
-              </Protected>
-            )
-          },
-        ]   
-        
+        ) 
       },
       {
         path:"/login",
@@ -158,6 +147,14 @@ const router = createBrowserRouter([
           </Protected>
         )
       },
+      {
+        path: "/queryPost/:query",
+        element:(
+          <Protected authentication>
+            <Home/>
+          </Protected>
+        )
+      },
       
     ]
   }
@@ -169,5 +166,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <RouterProvider router={router}/>
     </Provider>
     
-   // </React.StrictMode>
+  //  </React.StrictMode>
 )

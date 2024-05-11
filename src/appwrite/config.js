@@ -56,7 +56,7 @@ export class Service{
         }
     }
 
-async getUserById(userId,queries = [Query.equal("userId",userId)]){
+    async getUserById(userId,queries = [Query.equal("userId",userId)]){
         try {
             return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteProfileCollectionId, queries)
         } catch (error) {
@@ -120,6 +120,7 @@ async getUserById(userId,queries = [Query.equal("userId",userId)]){
             console.log("Appwrite serive :: updatePost :: error", error);
         }
     }
+
     async updateProfile(id ,{name, userName, bio, tag}){
         try {
             return await this.databases.updateDocument(
@@ -150,10 +151,58 @@ async getUserById(userId,queries = [Query.equal("userId",userId)]){
     async getQueryPost(query, queries=[Query.contains("title", query)]){
         try {
             return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteCollectionId, queries)
+            
          } catch (error) {
              console.log("appwrite service :: getQueryPost() :: ", error);
              return false;
          }
+    }
+
+    async createLike(posts, userId){
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteLikeCollectionId,
+                ID.unique(),
+                {
+                   posts, userId
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: createLike :: error", error);
+        }
+    }
+
+    async getUserLike(userId, queries=[Query.equal("userId", userId)]){
+        try {
+            return this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteLikeCollectionId, queries)
+        } catch (error) {
+            console.log("appwrite service :: getUserLike() :: ", error);
+            return false;
+        }
+    }
+
+    async getPostLike(postId, queries=[Query.equal("posts", postId)]){
+        try {
+            return this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteLikeCollectionId, queries)
+        } catch (error) {
+            console.log("appwrite service :: getPOstLike() :: ", error);
+            return false;
+        }
+    }
+
+    async getAllLikes(){
+        return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteLikeCollectionId);
+    }
+
+    async deleteLike(likeId){
+        try {
+            await this.databases.deleteDocument(conf.appwriteDatabaseId, conf.appwriteLikeCollectionId, likeId)
+            true;
+        } catch (error) {
+            console.log("appwrite service :: deleteLike() :: ", error);
+            return false;
+        }
     }
     
     
@@ -179,7 +228,7 @@ async getUserById(userId,queries = [Query.equal("userId",userId)]){
 
     
     getFilePreview(fileId){
-        console.log(fileId);
+        
             return this.bucket.getFilePreview("661b711d487a7b105c02", fileId)
         }
     

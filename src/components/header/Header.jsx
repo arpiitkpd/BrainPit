@@ -20,7 +20,7 @@ function Header() {
     const navigate = useNavigate();
 
     const search= async(data)=>{
-     
+     console.log(data);
         try {
              if(data){
                 navigate(`/queryPost/${data.search}`)

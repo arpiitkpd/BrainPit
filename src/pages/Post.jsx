@@ -3,11 +3,23 @@ import { Link, useNavigate, useParams} from "react-router-dom"
 import appwriteService from '../appwrite/config.js'
 import parse from 'html-react-parser'
 import { useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
+
+import Button from '../components/Button.jsx'
+
 
 
 function Post() {
 
+    const {register, handleSubmit, control, getValues} = useForm()
+
+    const [isLike, setIsLike] = useState(false)
+    const [isLikeId, setIsLikeId] = useState("")
+
     const [post, setPost]= useState(null);
+
+    const[likeNum, setLikeNum] = useState(0)
+   
     const {slug}= useParams();
     const navigate = useNavigate();
 
@@ -15,15 +27,35 @@ function Post() {
     const isAuthor = post && userData? post.userId == userData.$id : false
 
     useEffect(()=>{
+      
+    
+      
         if(slug){
             appwriteService.getPost(slug).then((post)=>{
                 if(post) setPost(post);
                 else navigate('/')
             })
+            appwriteService.getPostLike(slug).then((like)=>{
+               
+                const userLike = like.documents;
+                setLikeNum(like.documents.length)
+                
+                userLike.map((like)=>{
+                    if(like.userId==userData.$id){
+                        setIsLike(true)
+                        setIsLikeId(like.$id)
+                    }else{
+                        setIsLike(false)
+                    }
+                })
+               
+            })
+         
         }
         else navigate("/");
-    }, [slug, navigate])
+    }, [slug, navigate, isLike])
 
+    
     const deletePost=()=>{
         appwriteService.deletePost(post.$id).then((status)=>{
             if(status){
@@ -33,8 +65,35 @@ function Post() {
         })
     }
 
+    
+    const onClick = async()=>{
+        
+        if(isLike == false){
+        await appwriteService.createLike(post.$id, userData.$id).then((response)=>{
+           
+            setIsLike(true)
+                
+            })
+          
+        }else{
+            
+            await appwriteService.deleteLike(isLikeId)
+           
+            setIsLike(false)
+            
+        }
+    }
+
+ 
+    
+   
+
+
+    // console.log(post.likes);
+
+
   return post? (
-    <div>
+    <div className='text-white'>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
             <img
                 src={appwriteService.getFilePreview(post.featuredImage)}
@@ -61,6 +120,20 @@ function Post() {
         <div className="browser-css">
             {parse(post.content)}
             </div>
+            <form onSubmit={handleSubmit(onClick)}>
+            <Button
+                type="submit"
+                className={isLike?"button":"unlike"}
+                
+                >
+                {isLike?"unlike":"like"}
+                </Button>
+            </form>
+            
+        <div className="like">
+            {likeNum}
+        </div>
+        {/* <div>{like}</div> */}
     </div>
   ): null;
 }
