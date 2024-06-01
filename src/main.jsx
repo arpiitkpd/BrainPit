@@ -16,6 +16,7 @@ import Post from './pages/Post.jsx'
 import EditPost from './pages/EditPost.jsx'
 import Test from './components/test/Test.jsx'
 import EditProfile from './pages/EditProfile.jsx'
+import About from './pages/About.jsx'
 
 
 const router = createBrowserRouter([
@@ -27,11 +28,22 @@ const router = createBrowserRouter([
         path:"/",
         element:(
           
-            <Protected authentication={true}>
+            
               <Home/>
-            </Protected>
+           
 
-        ) 
+        ),
+        children:[
+          {
+          path:"/post",
+          element:(
+            
+              <Home/>
+            
+
+          )
+        }
+        ] 
       },
       {
         path:"/login",
@@ -69,49 +81,49 @@ const router = createBrowserRouter([
       {
         path:"/infotech/posts",
         element:(
-          <Protected authentication>
+          
             <Home tag="IT"/>
-          </Protected>
+        
         )
       },
       {
         path:"/medical/posts",
         element:(
-          <Protected authentication>
+          
             <Home tag="Medical"/>
-          </Protected>
+         
         )
       },
       {
         path:"/engineering/posts",
         element:(
-          <Protected authentication>
+         
             <Home tag="Engineering"/>
-          </Protected>
+        
         )
       },
       {
         path:"/law/posts",
         element:(
-          <Protected authentication>
+     
             <Home tag="Law"/>
-          </Protected>
+       
         )
       },
       {
         path:"/management/posts",
         element:(
-          <Protected authentication>
+        
             <Home tag="Management"/>
-          </Protected>
+        
         )
       },
       {
         path:"/biotech/posts",
         element:(
-          <Protected authentication>
+         
             <Home tag="BioTechnology"/>
-          </Protected>
+          
         )
       },
       {
@@ -148,11 +160,19 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: "/queryPost/:query",
+        path: "/postQuery/:query",
         element:(
-          <Protected authentication>
+        
             <Home/>
-          </Protected>
+         
+        )
+      },
+      {
+        path: "/about",
+        element:(
+         
+            <About/>
+       
         )
       },
       

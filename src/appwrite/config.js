@@ -13,6 +13,8 @@ export class Service{
         this.databases = new Databases(this.client)
         this.bucket = new Storage(this.client)
     }
+    
+    // profile
 
     async createProfile({name, userName, tag ,userId, bio }){
         try {
@@ -33,6 +35,35 @@ export class Service{
             console.log("Appwrite serive :: createProfile :: error", error);
         }
     }
+
+    async getProfile(id){
+        try {
+            return await this.databases.getDocument(conf.appwriteDatabaseId, conf.appwriteProfileCollectionId, id)
+        } catch (error) {
+            console.log("appwrite service :: getProfile() :: ", error);
+            return false;
+        }
+    } 
+    
+    async updateProfile(id ,{name, userName, bio, tag}){
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteProfileCollectionId,
+                id,
+                {
+                    name,
+                    userName, 
+                    bio, 
+                    tag
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: updateProfie :: error", error);
+        }
+    }
+
+    // posts
 
     async createPost({title, content, status, featuredImage, userId, department, likes, comment}){
         try {
@@ -82,15 +113,6 @@ export class Service{
         }
     }
 
-    async getProfile(id){
-        try {
-            return await this.databases.getDocument(conf.appwriteDatabaseId, conf.appwriteProfileCollectionId, id)
-        } catch (error) {
-            console.log("appwrite service :: getProfile() :: ", error);
-            return false;
-        }
-    }
-
     async deletePost(id){
         try {
            await this.databases.deleteDocument(conf.appwriteDatabaseId, conf.appwriteCollectionId, id)
@@ -121,24 +143,6 @@ export class Service{
         }
     }
 
-    async updateProfile(id ,{name, userName, bio, tag}){
-        try {
-            return await this.databases.updateDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteProfileCollectionId,
-                id,
-                {
-                    name,
-                    userName, 
-                    bio, 
-                    tag
-                }
-            )
-        } catch (error) {
-            console.log("Appwrite serive :: updateProfie :: error", error);
-        }
-    }
-
     async getDeptPost(dept,queries = [Query.equal("department",dept)]){
         try {
             return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteCollectionId, queries)
@@ -157,6 +161,8 @@ export class Service{
              return false;
          }
     }
+
+    // likes
 
     async createLike(posts, userId){
         try {
@@ -204,7 +210,32 @@ export class Service{
             return false;
         }
     }
-    
+
+    // commments
+    async createComment(posts, profileId, content){
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCommentCollectionId,
+                ID.unique(),
+                {
+                   posts, 
+                   profileId,
+                   content
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: createComment :: error", error);
+        }
+    }
+
+    async getCommentByPost(postId, queries=[Query.equal("posts", postId)]){
+        try {
+            return await this.databases.listDocuments(conf.appwriteDatabaseId, conf.appwriteCommentCollectionId, queries)
+        } catch (error) {
+            console.log("Appwrite serive :: getCommentByPost :: error", error);
+        }
+    }
     
     // storage services
     async uploadFile(file){

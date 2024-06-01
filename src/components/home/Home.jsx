@@ -15,6 +15,9 @@ function Home(tag="") {
    <Sidebar/>
     
    <Container tag={tag.tag}/>
+   <div className='poster' style={{height:"91vh", color:"white", border:"1px solid grey"}} > 
+    <img src="../../public/poster.jpg" alt="poster"  />
+    </div>
    </div>
   )
 }

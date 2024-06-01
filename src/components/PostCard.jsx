@@ -4,6 +4,7 @@ import './home/Home.css'
 import appwriteService from '../appwrite/config'
 import parse from "html-react-parser"
 
+
 function PostCard({
     id,
     imageUrl,
@@ -40,7 +41,7 @@ function PostCard({
         <div className="user-info">
         
           <span className="username">b/{user.userName}</span>
-          <span className="timestamp">{time}</span>
+          <span className="timestamp">{(new Date(time)).toLocaleDateString('en-GB')}</span>
         </div>
       </div>
       <div className="tag">
@@ -58,9 +59,9 @@ function PostCard({
     </div>
     <div className="post-footer">
       <div className="vote-buttons">
-        <button className="upvote-button">&#8593;</button>
+        <button className="upvote-button">
         <span className="vote-count">{likes}</span>
-        <button className="downvote-button">&#8595;</button>
+        </button>
       </div>
       <div className="comments-section">
         <span className="comments-count">{comments}</span>

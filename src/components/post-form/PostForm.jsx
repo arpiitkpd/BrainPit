@@ -163,7 +163,7 @@ function PostForm({post}) {
             className="mb-4"
             // onChange={handleFileChange}
             accept= "image/* "
-            {...register("image", {required:true})}   
+            {...register("image", {required:false})}   
             /> 
      
             <div className="image text-white">

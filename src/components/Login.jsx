@@ -7,6 +7,7 @@ import Input from './Input.jsx'
 import { useForm } from 'react-hook-form'
 import {useDispatch, useSelector} from 'react-redux'
 import {login as authLogin} from '../store/authSlice.js'
+import appwriteService from '../appwrite/config.js'
 
 
 
@@ -23,9 +24,17 @@ function Login() {
         const session =await authService.login(data)
             if(session){
                 const user = await authService.getCurrentUser()
-
-                if(user) dispatch(authLogin({user}))
-                navigate("/")
+                
+                if(user){
+                  dispatch(authLogin({user}))
+                  const userProfile = await appwriteService.getProfile(user.$id)
+                  if(userProfile){
+                    navigate("/")
+                  }else{
+                    navigate('/profile')
+                  }
+                } 
+                
             }
           } catch (error) {
             setError(error.message)

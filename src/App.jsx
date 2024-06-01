@@ -22,8 +22,9 @@ function App() {
             .finally(() => setLoading(false));
     }, [dispatch]);
   return !loading ?<div className='block'>
-            { authStatus? <Header/>: null}
+            
             <main>
+                <Header authStatus={authStatus}/>
                 <Outlet />
             </main>
 

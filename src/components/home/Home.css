@@ -5,7 +5,9 @@
     text-align: center;
     width: 100%;
 }
-
+.scroll::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
 
   
   .post-card {
@@ -111,3 +113,14 @@
     color: #0079d3;
   }
   
+  .imageConent{
+    height: 444px;
+  }
+
+  .poster img{
+   
+      height: 100%;
+      width: 100%;
+    
+    
+  }

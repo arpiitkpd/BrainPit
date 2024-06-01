@@ -4,17 +4,20 @@ import appwriteService from '../appwrite/config.js'
 import parse from 'html-react-parser'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-
+import Comment from '../components/Comment.jsx'
 import Button from '../components/Button.jsx'
+import Input from '../components/Input.jsx'
+import LikeForm from '../components/LikeForm.jsx'
 
 
 
 function Post() {
 
-    const {register, handleSubmit, control, getValues} = useForm()
+    const {register, handleSubmit} = useForm()
 
     const [isLike, setIsLike] = useState(false)
     const [isLikeId, setIsLikeId] = useState("")
+    const [comment, setComment] = useState([])
 
     const [post, setPost]= useState(null);
 
@@ -26,10 +29,9 @@ function Post() {
     const userData = useSelector((state)=> state.auth.userData);
     const isAuthor = post && userData? post.userId == userData.$id : false
 
+   
+
     useEffect(()=>{
-      
-    
-      
         if(slug){
             appwriteService.getPost(slug).then((post)=>{
                 if(post) setPost(post);
@@ -50,10 +52,15 @@ function Post() {
                 })
                
             })
+
+            appwriteService.getCommentByPost(slug).then((response)=>{
+                setComment(response.documents)
+            })
          
         }
         else navigate("/");
-    }, [slug, navigate, isLike])
+    }, [slug, navigate, isLike,])
+
 
     
     const deletePost=()=>{
@@ -65,9 +72,8 @@ function Post() {
         })
     }
 
-    
     const onClick = async()=>{
-        
+        console.log("like click");
         if(isLike == false){
         await appwriteService.createLike(post.$id, userData.$id).then((response)=>{
            
@@ -84,13 +90,12 @@ function Post() {
         }
     }
 
- 
-    
-   
-
-
-    // console.log(post.likes);
-
+    const commentHandler=async(data)=>{
+        console.log("comment like");
+        if(slug && userData){
+            await appwriteService.createComment(post.$id, userData.$id,data.content)
+        }
+    }
 
   return post? (
     <div className='text-white'>
@@ -120,20 +125,26 @@ function Post() {
         <div className="browser-css">
             {parse(post.content)}
             </div>
-            <form onSubmit={handleSubmit(onClick)}>
-            <Button
-                type="submit"
-                className={isLike?"button":"unlike"}
-                
-                >
-                {isLike?"unlike":"like"}
-                </Button>
-            </form>
+
+            <LikeForm onClick={onClick} isLike={isLike} />
             
         <div className="like">
             {likeNum}
         </div>
-        {/* <div>{like}</div> */}
+       {/* comments section */}
+                <form id='commentForm' onSubmit={handleSubmit(commentHandler)} style={{border:"2px solid green"}}>
+        <Input type={"text"} label={"Add a comment"} {...register("content", {required: true})}/>
+        <Button type='submit'> Add</Button>
+                </form>
+       <div>
+            {
+                comment.map((com)=>{
+                    return <div key={com.$id}>
+                      <Comment content={com.content}/>
+                    </div>
+                })
+            }
+        </div>
     </div>
   ): null;
 }

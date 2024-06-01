@@ -4,17 +4,15 @@ import PostCard from './PostCard.jsx'
 import appwriteService from '../appwrite/config.js'
 import { useParams } from 'react-router-dom';
 
-
-
 function Container({tag=""}) {
     
 
     const [posts, setPosts]= useState([])
-    const {query}= useParams();
-
-   
+    const {query} = useParams()
+    
+  
     useEffect(()=>{
-        if(tag){
+        if(tag&& !query){
             appwriteService.getDeptPost(tag).then((response)=> {
                 if(response){
                     setPosts(response.documents)
@@ -24,14 +22,13 @@ function Container({tag=""}) {
         }else if(query){
             appwriteService.getQueryPost(query).then((response)=> {
                 if(response){
-                  
                     setPosts(response.documents)
                 }else{
                     console.log("no post mathced");
                 }
                 }
                 )
-            }else{
+        }else if(query==null){
                 appwriteService.getPosts([]).then((response)=> {
                     if(response){
                         setPosts(response.documents)
@@ -39,23 +36,34 @@ function Container({tag=""}) {
                     }
                     )
             
+        }else{
+            appwriteService.getPosts([]).then((response)=> {
+                if(response){
+                    setPosts(response.documents)
+                }
+                }
+                )
+        
         }
         },[tag, query])
 
-        
+        console.log(posts);
     
   if(posts.length==0){
         return(
-            <div>null</div>
+            <div style={{color: "white"}}>Please login or signup to check out all the posts</div>
         )
     }else{
         return(
-            <div className="content  col-span-4  scroll text-white">
+            <>
+            
+            <div className="content  col-span-3  scroll text-white">
                 {
                 posts.map((post)=>{
                    
                     return(
                         <div key={post.$id} style={{borderBottom:"1px solid grey", marginRight: "23px"}}>
+                            
                             <PostCard id={post.$id} 
                             userId={post.userId}
                             time={post.$createdAt}
@@ -63,7 +71,7 @@ function Container({tag=""}) {
                             title={post.title} 
                             content={post.content} 
                             likes={post.likes.length} 
-                            comments={post.comment.length} 
+                            // comments={post.comment.length} 
                             tag={post.department}
                             />
 
@@ -76,6 +84,8 @@ function Container({tag=""}) {
                     
                 }
             </div>
+            
+        </>
         )
     }
 }

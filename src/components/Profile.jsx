@@ -10,8 +10,6 @@ import Select from './Select.jsx'
 
 function Profile({profile}) {
 
-  console.log("profp",profile);
-
     const {register, handleSubmit} = useForm({
       defaultValues:{
         name: profile?.name|| "",
@@ -20,34 +18,24 @@ function Profile({profile}) {
         tag: profile?.tag ||"Student"
       }
     })
-    const userData = useSelector((state) => state.auth.userData)
-    // const usr= useSelector((state)=> state.auth.status)
+    const userData = useSelector((state)=> state.auth.userData);
+    // console.log(userData);
     const navigate = useNavigate();
-    
-    console.log(profile);
-    
 
     const submit = async (data) => {
-      console.log(userData);
-
-
-            try {
-              
-                if(profile){
-                  console.log("userDatra",userData);
-                  const dbProf = await appwriteService.updateProfile(userData.$id,{...data})
-                  if(dbProf){
-                    navigate("/")
-                  
-                }else{
-                console.log(userData.$id);
-                  const dbProfile = await appwriteService.createProfile({...data,userId: userData.$id });
-  
-                  if (dbProfile) {
-                      navigate(`/`);
-                  }
-              } 
-            }
+      try {
+        if(profile){
+          const existProfile = await appwriteService.updateProfile({...data, userId: userData.$id})
+          if(existProfile){
+            navigate('/')
+          }
+        }else{
+          const userProfile = await appwriteService.createProfile({...data, userId: userData.$id})
+          if(userProfile){
+          console.log(userProfile);
+          navigate('/')
+        }
+        }
             } catch (error) {
               console.log(error);
             }
