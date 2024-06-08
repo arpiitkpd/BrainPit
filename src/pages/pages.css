@@ -1,0 +1,125 @@
+.load{
+    width: 100%;
+    height: 42rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageContainer{
+    display: flex;
+    align-items: center;
+    /* justify-content: center */
+}
+
+.btn{
+    background: #f4400d;
+    margin: 0px 10px;
+    width: 59px;
+    border-radius: 8px;
+    height: 29px;
+}
+
+.like{
+    font-size: larger;
+    font-weight: bold;
+}
+
+
+
+.likeForm{
+    margin-top: 11px;
+}
+
+.header{
+    height: 52px;
+    border-bottom: 1px solid grey;
+    font-size: 30px;
+    margin-top: 9px;
+    margin-left: 38px;
+    margin-right: 38px;
+}
+
+.infoContainer{
+    /* border: 1px solid red; */
+    margin-top: 50px;
+    align-items: center;
+    /* justify-content: center; */
+    margin-left: 38px;
+    margin-right: 38px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 24px;
+}
+
+.profilePic{
+    /* border: 1px solid red; */
+    background-size: contain;
+    width: 19%;
+}
+
+.info{
+    /* border: 1px solid; */
+    width: 100%;
+   height: 115px
+}
+.userName{
+    /* border: 1px solid green; */
+    color: grey;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 51px;
+}
+
+.fullName{
+    display: flex;
+    margin-left: 48px;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bio{
+    display: flex;
+    margin-left: 48px;
+    margin-top: 6px;
+}
+
+.aboutConatiner h2{
+    font-size: 28px;
+    margin: 15px;
+    color: grey;
+    /* font-weight: bolder; */
+}
+h3{
+    font-size: 2px;
+    margin: 15px 0px;
+    color: grey; 
+}
+.aboutContent{
+    padding: 0px 78px;
+    font-size: 18px;
+}
+.aboutConatiner{
+    margin: 0px 25px;
+    padding: 25px 25px ;
+    border-bottom: 1px solid grey;
+    text-align: left;
+    
+}
+
+ul{
+    list-style: circle;
+}
+
+.aboutFullName{
+    display: flex;
+    /* margin-left: 93px; */
+    margin-top: 10px;
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.aboutCreator{
+    margin-top: 6px;
+    text-align: left;
+}

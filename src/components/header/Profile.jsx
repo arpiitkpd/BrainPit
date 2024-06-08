@@ -51,7 +51,7 @@ const Profile = () => {
           <ul>
             <li style={{cursor:'text', text:"#c0b6b3",fontWeight: "500"
             }}>{userData.name}</li>
-            <li><Link to={"/edit-profile"}>Profile</Link></li>
+            <li><Link to={"/profile"}>Profile</Link></li>
            
             <li><Link to={"/about"}>Settings</Link></li>
             

@@ -1,11 +1,11 @@
 import React,{useId, useState} from 'react'
-
+import './home/Home.css'
 const Input = React.forwardRef(
     function Input({
         label, 
         type="text",
         className ="",
-        titlClass="",
+        titlClass="text-white",
         value,
         
         ...props
@@ -15,7 +15,7 @@ const Input = React.forwardRef(
         
         const id = useId();    
         return(
-            <div>
+            <div style={{width:"100%"}}>
                 {label && (
                     <label
                     htmlFor={id}
@@ -25,18 +25,15 @@ const Input = React.forwardRef(
                     </label>
                 )}
                 <input type={type}
-              
-                 className={`${className}`}
-                
-                 defaultValue={null}
-              
-                 
-                 
+                className={`${className}`}
+                value={value}
                 contentEditable="true"
                  
-                  id={id}
-                  ref={ref}
-                  {...props} />
+                id={id}
+                ref={ref}
+                {...props} 
+                
+                />
             </div>
         )
     })

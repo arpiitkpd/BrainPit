@@ -236,6 +236,16 @@ export class Service{
             console.log("Appwrite serive :: getCommentByPost :: error", error);
         }
     }
+
+    async deleteComment(commentId){
+        try {
+            await this.databases.deleteDocument(conf.appwriteDatabaseId, conf.appwriteCommentCollectionId, commentId)
+            return true
+        } catch (error) {
+            console.log("appwrite service :: deleteComment() :: ", error);
+            return false;
+        }
+    }
     
     // storage services
     async uploadFile(file){

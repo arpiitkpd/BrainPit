@@ -10,15 +10,10 @@ import { IoSearchOutline, } from "react-icons/io5";
 import Profile from './Profile.jsx'
 
 
-function Header({authStatus}) {
-
-
-    
-    
-   
+function Header() {
     const {register, handleSubmit} = useForm()
     const navigate = useNavigate();
-
+const authStatus = useSelector((state)=> state.auth.status)
     const search= async(data)=>{
      console.log(data);
         try {

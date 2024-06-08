@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Button from './Button'
+import './home/Home.css'
 
 function LikeForm({
     onClick,
@@ -15,10 +16,10 @@ function LikeForm({
                
                <Button
                    type="submit"
-                   className={isLike?"button":"unlike"}
+                   className={isLike?"likeBtn":"unlikeBtn"}
                    
                    >
-                   {isLike?"unlike":"like"}
+                   {isLike?"Unlike":"Like"}
                    </Button>
                </form>
                

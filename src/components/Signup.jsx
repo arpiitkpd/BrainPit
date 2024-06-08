@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import authService from '../appwrite/auth.js'
-import { useNavigate, Link} from 'react-router-dom'
+import {  Link, useNavigate} from 'react-router-dom'
 import {login} from '../store/authSlice.js'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {useForm} from 'react-hook-form'
 
 import Button from './Button.jsx'
@@ -10,7 +10,7 @@ import Input from './Input.jsx'
 
 function Signup() {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
     const [error, setError] = useState("")
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
@@ -24,7 +24,13 @@ function Signup() {
                 const userData = await authService.getCurrentUser()
                 if(userData){
                     dispatch(login(userData))
-                    navigate('/profile')
+                    const user = useSelector((state)=> state.auth.userData);                    navigate('/edit-profile')
+                    if(user){
+                      navigate('/edit-profile')
+                    }else{
+                      console.log('not navigate');
+                    }
+                    
                 }
             }
         } catch (error) {

@@ -17,7 +17,8 @@ import EditPost from './pages/EditPost.jsx'
 import Test from './components/test/Test.jsx'
 import EditProfile from './pages/EditProfile.jsx'
 import About from './pages/About.jsx'
-
+import Setting from './pages/Setting.jsx'
+import Trending from './pages/Trending.jsx'
 
 const router = createBrowserRouter([
   {
@@ -26,12 +27,8 @@ const router = createBrowserRouter([
     children:[
       {
         path:"/",
-        element:(
-          
-            
+        element:(  
               <Home/>
-           
-
         ),
         children:[
           {
@@ -45,22 +42,8 @@ const router = createBrowserRouter([
         }
         ] 
       },
-      {
-        path:"/login",
-        element:(
-          <Protected authentication={false}>
-            <Login/>
-          </Protected>
-        )
-      },
-      {
-        path:"/signup",
-        element:(
-          <Protected authentication={false}>
-            <Signup/>
-          </Protected>
-        )
-      },
+      
+      
       {
         path:"/profile",
         element:(
@@ -158,9 +141,16 @@ const router = createBrowserRouter([
             <EditProfile/>
           </Protected>
         )
-      },
+      }, 
       {
         path: "/postQuery/:query",
+        element:(
+            <Home/>
+         
+        )
+      },
+      {
+        path: "/postQuery/",
         element:(
         
             <Home/>
@@ -175,16 +165,49 @@ const router = createBrowserRouter([
        
         )
       },
+      {
+        path: "/setting",
+        element:(
+         
+            <Setting/>
+       
+        )
+      },
+      {
+        path: "/trending",
+        element:(
+         
+            <Trending/>
+       
+        )
+      },
+      
       
     ]
-  }
+  },
+  {
+    path:"/login",
+    element:(
+      <Protected authentication={false}>
+        <Login/>
+      </Protected>
+    )
+  },
+  {
+    path:"/signup",
+    element:(
+      <Protected authentication={false}>
+        <Signup/>
+      </Protected>
+    )
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <Provider store={store}>
         <RouterProvider router={router}/>
     </Provider>
     
-  //  </React.StrictMode>
+    </React.StrictMode>
 )

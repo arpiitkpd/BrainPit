@@ -3,36 +3,43 @@ import React, { useEffect, useState } from 'react'
 import PostCard from './PostCard.jsx'
 import appwriteService from '../appwrite/config.js'
 import { useParams } from 'react-router-dom';
+import Loader from './loader/Loader.jsx';
+
 
 function Container({tag=""}) {
-    
-
     const [posts, setPosts]= useState([])
+    const [loading, setLoading]= useState(true)
     const {query} = useParams()
+
     
-  
     useEffect(()=>{
+        
         if(tag&& !query){
+            setLoading(true)
             appwriteService.getDeptPost(tag).then((response)=> {
                 if(response){
                     setPosts(response.documents)
+                    setLoading(false)
                 }
-                }
-                )
-        }else if(query){
-            appwriteService.getQueryPost(query).then((response)=> {
-                if(response){
-                    setPosts(response.documents)
-                }else{
-                    console.log("no post mathced");
-                }
-                }
-                )
-        }else if(query==null){
-                appwriteService.getPosts([]).then((response)=> {
-                    if(response){
-                        setPosts(response.documents)
-                    }
+            }
+        )
+    }else if(query){
+        appwriteService.getQueryPost(query).then((response)=> {
+            setLoading(true)
+            if(response){
+                setPosts(response.documents)
+                setLoading(false)
+            }else{
+                console.log("no post mathced");
+            }
+        }
+    )
+}else if(query==null){
+    appwriteService.getPosts([]).then((response)=> {
+        if(response){
+            setPosts(response.documents)
+            setLoading(false)
+        }
                     }
                     )
             
@@ -40,30 +47,40 @@ function Container({tag=""}) {
             appwriteService.getPosts([]).then((response)=> {
                 if(response){
                     setPosts(response.documents)
+                    setLoading(false)
                 }
-                }
-                )
+            }
+        )
         
-        }
-        },[tag, query])
-
-        console.log(posts);
+    }
     
-  if(posts.length==0){
+},[tag, query])
+
+
+        
+        
+    
+  if(loading){
         return(
-            <div style={{color: "white"}}>Please login or signup to check out all the posts</div>
+            <div className=' top'><Loader/></div>
+            
         )
     }else{
+        if(posts.length==0){
+            return(
+                <div className='text-white'>There is no post to show be the first one to create a post </div>
+            )
+        }else{
         return(
             <>
             
-            <div className="content  col-span-3  scroll text-white">
+            <div className="content  text-white" >
                 {
                 posts.map((post)=>{
                    
                     return(
                         <div key={post.$id} style={{borderBottom:"1px solid grey", marginRight: "23px"}}>
-                            
+                           
                             <PostCard id={post.$id} 
                             userId={post.userId}
                             time={post.$createdAt}
@@ -87,6 +104,7 @@ function Container({tag=""}) {
             
         </>
         )
+    }
     }
 }
 

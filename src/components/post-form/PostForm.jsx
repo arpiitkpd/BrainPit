@@ -8,6 +8,7 @@ import appwriteService from '../../appwrite/config'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import "./post.css"
+import Loader from '../loader/Loader'
 // import ImageInput from './ImageInput'
 
 function PostForm({post}) {
@@ -23,6 +24,8 @@ function PostForm({post}) {
     const navigate = useNavigate();
    const userData = useSelector((state)=> state.auth.userData)
    
+   const [loader, setLoading] = useState(true)
+
 
     const submit = async(data)=>{
 
@@ -97,7 +100,7 @@ function PostForm({post}) {
                     titlClass="check"
                     label = 'Title'
                     placeholder='Title'
-                    value={post ? post.title: ""}
+                    
                     className ='input'
                     {...register("title", {required: true})}
                     />
@@ -155,12 +158,12 @@ function PostForm({post}) {
             </div>
 
 
-            <div className="image bgc border-green col-span-2 m-5 rounded-md">
+            <div className="image bgc border-green col-span-2 m-5 rounded-md text-white">
             
             <Input 
             label="Featured Image"
             type="file"
-            className="mb-4"
+            className="mb-4 mt-3"
             // onChange={handleFileChange}
             accept= "image/* "
             {...register("image", {required:false})}   

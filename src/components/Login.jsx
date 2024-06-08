@@ -31,7 +31,7 @@ function Login() {
                   if(userProfile){
                     navigate("/")
                   }else{
-                    navigate('/profile')
+                    navigate('/edit-profile')
                   }
                 } 
                 

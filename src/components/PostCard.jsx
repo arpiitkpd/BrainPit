@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import './home/Home.css'
 import appwriteService from '../appwrite/config'
 import parse from "html-react-parser"
+import { BsHeartFill } from "react-icons/bs";
+import { useSelector } from 'react-redux'
 
 
 function PostCard({
@@ -19,16 +21,16 @@ function PostCard({
 
   const [user, setUser]= useState({})
   
-    
-    useEffect(()=>{
-    appwriteService.getUserById(userId).then((response)=> {
+  const userStatus = useSelector((state)=> state.auth.status)
+
+   
+   if(userStatus){ appwriteService.getUserById(userId).then((response)=> {
       if(response){
         setUser(response.documents[0])
       }
       }
     )
-    },[])
-  
+  }
 
   return (
     <>
@@ -51,7 +53,7 @@ function PostCard({
     <div className="post-content">
       <h2 className="post-title ">{title}</h2>
       <div className="post-body">
-        <div>{parse(content)} </div>
+        <div style={{textAlign: "left"}}>{parse(content)} </div>
     </div>
     </div>
     <div className="imageConent flex justify-center ">
@@ -60,12 +62,16 @@ function PostCard({
     <div className="post-footer">
       <div className="vote-buttons">
         <button className="upvote-button">
-        <span className="vote-count">{likes}</span>
+        <div style={{marginRight:"4px"}}>
+        
+        {<BsHeartFill />}
+        </div>
+        {likes?<span className="vote-count">{likes}</span>:0}
+        
         </button>
       </div>
       <div className="comments-section">
-        <span className="comments-count">{comments}</span>
-        <div className="comments-link">discuss</div>
+        {likes?<span className="comments-count">{comments}</span>:null}
       </div>
     </div>
   </Link>

@@ -5,26 +5,11 @@ import appwriteService from '../appwrite/config.js'
 
 
 function EditProfile() {
-    const [profile, setProfile] = useState(null)
-    const userData = useSelector((state)=> state.auth.userData)
-    const id = userData.$id;
-    console.log("edit", profile);
     
-
-    useEffect(()=>{
-        if(id){
-            appwriteService.getProfile(id).then((prof)=>{
-                if(prof){
-                    setProfile(prof)
-                }else{
-                    setProfile(null)
-                }
-            })
-        }
-    }, [id])
+    console.log("edit Profile");
   return (
     <div>
-        <Profile profile={profile}/>
+        <Profile/>
     </div>
   )
 }

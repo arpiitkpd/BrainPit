@@ -1,40 +1,29 @@
 import React from 'react'
-import authService from '../appwrite/auth.js'
-import { useNavigate, Link} from 'react-router-dom'
+// import authService from '../appwrite/auth.js'
+import { useNavigate} from 'react-router-dom'
 import appwriteService from '../appwrite/config.js'
 import {useSelector} from 'react-redux'
 import {useForm} from 'react-hook-form'
 import Input from './Input.jsx'
 import Button from './Button.jsx'
 import Select from './Select.jsx'
+import './home/Home.css'
 
-function Profile({profile}) {
-
-    const {register, handleSubmit} = useForm({
-      defaultValues:{
-        name: profile?.name|| "",
-        userName: profile?.userName ||"",
-        bio: profile?.bio ||"",
-        tag: profile?.tag ||"Student"
-      }
-    })
+function Profile() {
+    
+    const {register, handleSubmit} = useForm()
     const userData = useSelector((state)=> state.auth.userData);
     // console.log(userData);
     const navigate = useNavigate();
 
     const submit = async (data) => {
       try {
-        if(profile){
-          const existProfile = await appwriteService.updateProfile({...data, userId: userData.$id})
-          if(existProfile){
-            navigate('/')
-          }
-        }else{
+        
           const userProfile = await appwriteService.createProfile({...data, userId: userData.$id})
           if(userProfile){
           console.log(userProfile);
           navigate('/')
-        }
+        
         }
             } catch (error) {
               console.log(error);
@@ -45,11 +34,11 @@ function Profile({profile}) {
   
 
 <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-<div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
-    <div className="lg:w-1/2 xl:w-7/12 p-6 sm:p-12">
+<div className="max-w-screen-xl shadow sm:rounded-lg flex justify-center flex-1">
+    <div className="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 text-black">
         <div className=" flex flex-col items-center">
           <div className="text-center">
-            <h1 className="text-2xl xl:text-4xl font-extrabold text-blue-900">
+            <h1 className="text-2xl xl:text-4xl font-extrabold" style={{color:"#f2410b"}}>
               Complete Your Profile
             </h1>
           </div>
@@ -59,8 +48,7 @@ function Profile({profile}) {
               className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
               label ="Full Name"
               type="text"
-              
-              value = {profile? profile.name: ""}
+             
               
               placeholder="Enter your Fullname"
               {...register("name", {
@@ -68,9 +56,9 @@ function Profile({profile}) {
               })}
               />
               <Input
-              className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+              className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white focus:color-black"
               label ="UserName"
-              value={profile? profile.userName : ""}
+             
               
               type="text"
               placeholder="Enter your username"
@@ -79,10 +67,10 @@ function Profile({profile}) {
               })}
               />
               <Input
-              className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+              className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white focus:color-black"
               label ="bio"
               type="text"
-              value={profile? profile.bio: ""}
+             
               
               placeholder="Enter your bio"
               {...register("bio")}
@@ -90,23 +78,19 @@ function Profile({profile}) {
               <Select
                 options = {["Teacher", "Student"]}
                 label= 'Tag'
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white focus:color-black"
                 {...register("tag", {required: true})}
                 />
-              {/* <Select
-                options = {["InfoTech", "Management", "Law", "Engineering", "Medical", "BioTechnology"]}
-                label= 'Department'
-                className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                {...register("department", {required: true})}
-                /> */}
               
-              <div className = "buttonBox">
+              
+              <div className = "buttonBox" >
                 <Button
                 type="submit"
-                className="button"
+                className="buttonprof text-white bg-orange-700 w-19"
+                
                 
                 >
-                { profile?"Update":"Submit"}
+                {"Submit"}
                 </Button>
                 </div>
             </form>
@@ -115,14 +99,7 @@ function Profile({profile}) {
           </div>
         </div>
     </div>
-    <div className="flex-1 bg-blue-900 text-center hidden md:flex">
-    <div
-      className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `url(https://www.tailwindtap.com/assets/components/form/createaccount/login.svg)`,
-      }}
-    ></div>
-  </div>
+
 </div>
 </div>
 
