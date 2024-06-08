@@ -12,7 +12,7 @@ function RTE({name, input, control, label,value, defaultValue='', titlClass}) {
       control={control}
       render={({field: {onChange}}) => (
           <Editor
-          
+          apiKey='az119jn2w3mjdp690dmneq9gdhjowiycmfc5gh1z6scdxss2'
           className={input}
           disabled={false}
           initialValue= {value}
