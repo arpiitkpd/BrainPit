@@ -60,12 +60,7 @@ function Container({tag=""}) {
         
         
     
-  if(loading){
-        return(
-            <div className=' top'><Loader/></div>
-            
-        )
-    }else{
+ 
         if(posts.length==0){
             return(
                 <div className='text-white'>There is no post to show be the first one to create a post </div>
@@ -105,8 +100,8 @@ function Container({tag=""}) {
         </>
         )
     }
-    }
 }
+
 
 
 export default Container;
