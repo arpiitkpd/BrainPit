@@ -20,17 +20,18 @@ function PostCard({
 }) {
 
   const [user, setUser]= useState({})
-  
-  const userStatus = useSelector((state)=> state.auth.status)
+
+
+  // const userStatus = useSelector((state)=> state.auth.status)
 
    
-   if(userStatus){ appwriteService.getUserById(userId).then((response)=> {
+   appwriteService.getUserById(userId).then((response)=> {
       if(response){
         setUser(response.documents[0])
       }
       }
     )
-  }
+  
 
   return (
     <>
@@ -57,7 +58,7 @@ function PostCard({
     </div>
     </div>
     <div className="imageConent flex justify-center ">
-    <img className="featuredImage" src={appwriteService.getFilePreview(imageUrl)} alt="User Avatar"/>
+    <img className="featuredImage" src={ appwriteService.getFilePreview(imageUrl)} alt="post image"/>
     </div>
     <div className="post-footer">
       <div className="vote-buttons">
