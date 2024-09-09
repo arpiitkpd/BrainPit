@@ -47,17 +47,17 @@ const router = createBrowserRouter([
       {
         path:"/profile",
         element:(
-          <Protected authentication>
+          
             <Profile/>
-          </Protected>
+       
         )
       },
       {
         path:"/addpost",
         element:(
-          <Protected authentication>
+        
             <AddPost/>
-          </Protected>
+       
         )
       },
               
@@ -112,34 +112,34 @@ const router = createBrowserRouter([
       {
         path:"/test",
         element:(
-          <Protected authentication>
+          
             <Test/>
-          </Protected>
+     
         )
       },
       {
         path: "/post/:slug",
         element:(
-          <Protected authentication ={false}>
+         
             <Post/>
-          </Protected>
+          
         )
       },
       
       {
         path: "/edit-post/:slug",
         element:(
-          <Protected authentication>
+         
             <EditPost/>
-          </Protected>
+         
         )
       },
       {
         path: "/edit-profile",
         element:(
-          <Protected authentication>
+          
             <EditProfile/>
-          </Protected>
+          
         )
       }, 
       {
