@@ -35,7 +35,7 @@ const authStatus = useSelector((state)=> state.auth.status)
             <div className='flex items-center'>
                 <img style={{maxWidth:"14%"}} src='/brainPit.png'  alt="image description"/>
             
-            <Link to="/" className="text-2xl font-bold text-white font-serif"  style={{marginLeft:"8px"}}>brainPit</Link>
+            <Link to="/" className="text-2xl font-bold text-white font-serif"  style={{marginLeft:"8px"}}>brainnnPit</Link>
            </div>
             <form  onSubmit={handleSubmit(search)}>
             <div className='my-2'>
