@@ -14,7 +14,7 @@ function Container({tag=""}) {
     
     useEffect(()=>{
         
-        if(tag&& !query){
+        /*if(tag&& !query){
             setLoading(true)
             appwriteService.getDeptPost(tag).then((response)=> {
                 if(response){
@@ -52,9 +52,16 @@ function Container({tag=""}) {
             }
         )
         
-    }
+    }*/
+        appwriteService.getPosts([]).then((response)=> {
+            if(response){
+                setPosts(response.documents)
+                setLoading(false)
+            }
+        }
+    )
     
-},[tag, query])
+},[])
 
 
         
